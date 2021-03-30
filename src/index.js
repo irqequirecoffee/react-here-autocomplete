@@ -16,7 +16,8 @@ export default class AutoCompleteText extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
     appid: PropTypes.string.isRequired,
-    appcode: PropTypes.string.isRequired
+    appcode: PropTypes.string.isRequired,
+    base_api_url: PropTypes.string
   };
 
   onTextChanged = e => {
@@ -24,9 +25,10 @@ export default class AutoCompleteText extends Component {
     this.setState({ locationId: "", text: value });
 
     if (value.length > 0) {
+      const base_api_url = this.props.api_url ? this.props.api_url : `http://autocomplete.geocoder.api.here.com/6.2/suggest.json`;
       this.setState({ text: value });
       fetch(
-        `http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id=${
+        `${base_api_url}?app_id=${
           this.props.appid
         }&app_code=${this.props.appcode}&query=${value}`
       )
